@@ -1,0 +1,5 @@
+# create migration after editing schema
+    supbase db diff --use-migra -f <output_file>
+
+# seed data from running instance
+    supabase db dump --local --data-only > supabase/seed.sql
