@@ -46,9 +46,25 @@ export async function getMeasures():Promise<TMeasureSchema[]|null>{
  * @param resource_id 
  * @returns 
  */
-export async function getQuantities( resource_id: number):Promise<TQuantityFormSchema[]|null>{
+export async function getQuantities( resource_id: number, from?:string, to?:string):Promise<TQuantityFormSchema[]|null>{
     
     const supabase = createClient();
+
+    if (from !== undefined){
+        const {data,error} = await supabase.from('resource_quantity')
+            .select()
+            .gte('date',from)
+            .lte('date',to ?? from)
+            .match({ product_id: resource_id })
+            .returns<TQuantityFormSchema[]>()
+
+        if (error){
+            console.log(error)
+            return null
+        }
+
+        return data
+    }
 
     const {data,error} = await supabase.from('resource_quantity')
         .select()
@@ -65,9 +81,24 @@ export async function getQuantities( resource_id: number):Promise<TQuantityFormS
 
 
 
-export async function getResourceAggregates():Promise<TRecordTotal[]|null>{
+export async function getResourceAggregates(from?: string, to?:string):Promise<TRecordTotal[]|null>{
 
     const supabase = createClient()
+
+    if (from !== undefined){
+        const {data,error} = await supabase.rpc('resource_total_filter',{
+            from_date: from,
+            to_date: to
+        })
+        .returns<TRecordTotal[]>()
+
+        if (error){
+            console.log(error)
+            return null
+        }
+
+        return data
+    }
 
     const {data,error} = await supabase.rpc('resource_totals')
         .returns<TRecordTotal[]>()

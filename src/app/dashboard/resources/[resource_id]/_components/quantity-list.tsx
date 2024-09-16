@@ -6,6 +6,7 @@ import { DataTable } from '@/components/custom/data_table'
 import { useQuantities } from '@/hooks/custom-hooks'
 import React from 'react'
 import { columns } from './columns'
+import { useSearchParams } from 'next/navigation'
 
 type Props = {
     resource_id: number
@@ -14,7 +15,8 @@ type Props = {
 const QuantityList:React.FC<Props> = ({
     resource_id
 }) => {
-    const {data,isLoading,isError} = useQuantities(resource_id)
+    const searchParams = useSearchParams()
+    const {data,isLoading,isError} = useQuantities(resource_id,searchParams.get("from")?? undefined, searchParams.get("to")?? undefined)
 
     if (isLoading){
         return (

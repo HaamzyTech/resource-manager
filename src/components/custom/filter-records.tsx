@@ -26,8 +26,8 @@ const FilterDatePicker = (props: Props) => {
 
     useEffect(() => {
         setDate({
-            from: searchParams.get("from") ? new Date(Date.parse(searchParams.get("from") || "")) :subDays(new Date(), 6),
-            to: searchParams.get("to") ? new Date (Date.parse(searchParams.get("to") || "")) : new Date()
+            from: searchParams.get("from") ? new Date(Date.parse(searchParams.get("from") || new Date().toLocaleDateString())) :subDays(new Date(), 6),
+            to: searchParams.get("to") ? new Date (Date.parse(searchParams.get("to") || new Date().toLocaleDateString())) : new Date()
         });
     }, [searchParams]);
 

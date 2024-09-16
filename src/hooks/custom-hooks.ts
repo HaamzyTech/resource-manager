@@ -22,10 +22,10 @@ export function useResources(){
  * 
  * @returns 
  */
-export function useResourcesAggregates(){
-    const queryKey = ['resource_aggregates'];
+export function useResourcesAggregates(from?:string, to?:string){
+    const queryKey = ['resource_aggregates',from,to ?? from];
     const queryFn = async ()=>{
-        return await getResourceAggregates();
+        return await getResourceAggregates(from, to ?? from);
     }
 
     return useQuery({queryKey,queryFn});
@@ -37,10 +37,10 @@ export function useResourcesAggregates(){
  * 
  * @returns 
  */
-export function useQuantities( resource_id:number ){
-    const queryKey = ['quantity_list', resource_id];
+export function useQuantities( resource_id:number, from?:string, to?:string ){
+    const queryKey = ['quantity_list', resource_id, from, to ?? from];
     const queryFn = async ()=>{
-        return await getQuantities( resource_id );
+        return await getQuantities( resource_id, from, to );
     }
 
     return useQuery({queryKey,queryFn});

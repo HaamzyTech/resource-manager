@@ -5,6 +5,7 @@ import ContentLoadingError from '@/components/custom/content-loading-error'
 import { useResourcesAggregates } from '@/hooks/custom-hooks'
 import React from 'react'
 import AggregateCard from './aggregate-card'
+import { useSearchParams } from 'next/navigation'
 
 type Props = {}
 
@@ -12,7 +13,8 @@ const ResourceAggregates:React.FC<Props> = ({
 
 }) => {
 
-    const {data, isLoading, isError} = useResourcesAggregates()
+    const searchParams = useSearchParams()
+    const {data, isLoading, isError} = useResourcesAggregates(searchParams.get("from")?? undefined, searchParams.get("to")?? undefined)
 
     if (isLoading){
         return (
